@@ -1,0 +1,13 @@
+body {
+    background-color: aquamarine;
+}
+hr {
+    border-style: dotted none none none;
+    border-color: greenyellow;
+    border-width: 8px;
+    width: 5%;
+}
+
+h1, h3 {
+    color: yellow;
+}
