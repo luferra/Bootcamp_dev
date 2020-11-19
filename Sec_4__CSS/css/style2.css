@@ -1,0 +1,53 @@
+/****************************TAG STYLE**************************************/
+
+body {
+    margin: 0;
+    text-align: center;
+    font-family: 'Merriweather', serif;
+}
+h1 {
+    margin: 50px auto 0 auto;
+    font-family: 'Sacramento', cursive;
+    font-size: 5.655rem;
+    color: #66bfbf;
+}
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    color: #66bfbf;
+    font-weight: normal;
+}
+h3{
+    font-family: 'Montserrat', sans-serif;
+    color: #11999e;
+}
+a {
+    color: #11999e;
+}
+
+/****************************CLASS STYLE**************************************/
+.top-container {
+    background-color: #f9f7cf;
+    position: relative;
+    padding-top: 100px;
+    line-height: 2;
+}
+.middle-container {
+}
+.bottom-container {
+}
+
+.under {
+    text-decoration: underline;
+}
+.top-cloud {
+    position: absolute;
+    top: 50px;
+    right: 300px;
+}
+.bottom-cloud {
+    position: absolute;
+    left: 300px;
+    bottom: 300px;
+}
+/****************************ID STYLE**************************************/
