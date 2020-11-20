@@ -2,6 +2,7 @@
 
 body {
     margin: 0;
+    color: #40514e;
     text-align: center;
     font-family: 'Merriweather', serif;
 }
@@ -12,29 +13,63 @@ h1 {
     color: #66bfbf;
 }
 h2 {
+    margin-top: 50px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1.8rem;
     color: #66bfbf;
-    font-weight: normal;
+    font-weight: bold;
 }
 h3{
     font-family: 'Montserrat', sans-serif;
     color: #11999e;
+    font-weight: bold;
 }
 a {
     color: #11999e;
 }
+a:hover {
+    color: #EAf6f6;
+}
+hr {
+    border-style: dotted none none none;
+    border-width: 8px;
+    border-color: #eaf6f6;
+    width: 6%;
+    margin: 50px auto;
+}
+p {
+    line-height: 2;
+}
 
 /****************************CLASS STYLE**************************************/
 .top-container {
-    background-color: #f9f7cf;
+    background-color: #eaf6f6;
     position: relative;
     padding-top: 100px;
     line-height: 2;
 }
 .middle-container {
+    margin: 100px 0;
 }
 .bottom-container {
+    background-color: #66bfbf;
+    padding: 50px;
+    margin-bottom: 0;
+}
+
+.img-round {
+    border-radius: 100%;
+}
+
+.intro {
+    width: 30%;
+    margin: auto;
+}
+.skill-row {
+    width: 50%;
+    position: relative;
+    margin: 100px auto 100px auto;
+    text-align: left;
 }
 
 .under {
@@ -42,12 +77,70 @@ a {
 }
 .top-cloud {
     position: absolute;
-    top: 50px;
+    top: 40px;
     right: 300px;
 }
 .bottom-cloud {
     position: absolute;
-    left: 300px;
+    left: 250px;
     bottom: 300px;
 }
+
+.skill-image {
+    width: 25%;
+    float: left;
+    margin-right: 30px;
+}
+
+.skill-image2 {
+    width: 25%;
+    float: right;
+    margin-left: 30px;
+}
+
+.bottom-container p{
+    color: #eaf6f6;
+    margin-top: 50px;
+}
+.bottom-container a{
+    margin: 30px;
+    text-decoration: none;
+}
+.contact-message {
+    width: 40%;
+    margin: 40px auto 60px;
+}
+.btn_contact {
+    background: #FFFFFF;
+    background-image: -webkit-linear-gradient(top, #b1e4eb, #11999F);
+    background-image: -moz-linear-gradient(top, #b1e4eb, #11999F);
+    background-image: -ms-linear-gradient(top, #b1e4eb, #11999F);
+    background-image: -o-linear-gradient(top, #b1e4eb, #11999F);
+    background-image: -webkit-gradient(to bottom, #b1e4eb, #11999F);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 10px 20px 10px 20px;
+    width: 10%;
+    -webkit-box-shadow: 1px 1px 7px 0 #000000;
+    -moz-box-shadow: 1px 1px 7px 0 #000000;
+    box-shadow: 1px 1px 7px 0 #000000;
+    text-shadow: 1px 1px 20px #000000;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+ }
+
+/* .skill-text {
+    clear: left;
+}
+
+.skill-text2 {
+    clear: right;
+} */
 /****************************ID STYLE**************************************/
