@@ -18,11 +18,6 @@ app.post("/", function(req, res) {
     const surname = req.body.inputSurname;
     const emails = req.body.inputEmail;
 
-    mailchimp.setConfig({
-        apiKey: "6c882fb21d8e5e39b95d195c8bb02ad2-us7",
-        server: "us7",
-    });
-
     const listId = "fe0d5cc4bf";
     const subscribingUser = {
         firstName: name,
@@ -30,50 +25,42 @@ app.post("/", function(req, res) {
         email: emails,
     };
 
-    async function run() {
-        const response = await mailchimp.lists.addListMember(listId, {
+    const data = {
+        members: [{
             email_address: subscribingUser.email,
             status: "subscribed",
-            merge_fields: {
+            merge_field: {
                 FNAME: subscribingUser.firstName,
-                LNAME: subscribingUser.lastName,
+                LNAME: subscribingUser.lastName
             }
-        });
+        }]
+    };
 
-        console.log(
-            `Successfully added contact as an audience member. The contact's id is ${response.id}.`
-        );
+    const jsonData = JSON.stringify(data);
+
+    const listid = "fe0d5cc4bf";
+    const url = "https://us7.api.mailchimp.com/3.0/lists/fe0d5cc4bf";
+    const option = {
+        method: "POST",
+        auth: "luferra:b77397ad48e8330b87cab35ebdc72282-us7"
     }
-    run();
 
-    // const data = {
-    //     members: [{
-    //         email_address: email,
-    //         status: "subscribed",
-    //         merge_field: {
-    //             FNAME: name,
-    //             LNAME: surname
-    //         }
-    //     }]
-    // };
+    const requesta = https.request(url, option, function(response) {
+        console.log(response.error_count);
 
-    // const jsonData = JSON.stringify(data);
+        response.on("data", function(data) {
+            var rex = JSON.parse(data);
+            //console.log(JSON.parse(data));
+            if (rex.error_count === 0) {
+                res.sendFile(__dirname + "/success.html");
+            } else {
+                res.sendFile(__dirname + "/failure.html");
+            }
+        })
+    })
 
-    // const listid = "fe0d5cc4bf";
-    // const url = "https://us7.api.mailchimp.com/3.0/lists/fe0d5cc4bf";
-    // const option = {
-    //     method: "POST",
-    //     auth: "luferra:6c882fb21d8e5e39b95d195c8bb02ad2-us7"
-    // }
-
-    // const requesta = https.request(url, option, function(response) {
-    //     response.on("data", function(data) {
-    //         console.log(JSON.parse(data));
-    //     })
-    // })
-
-    // requesta.write(jsonData);
-    // requesta.end();
+    requesta.write(jsonData);
+    requesta.end();
 })
 
 app.listen("3001", function() {
