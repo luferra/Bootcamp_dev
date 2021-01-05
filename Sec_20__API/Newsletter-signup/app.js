@@ -40,7 +40,7 @@ app.post("/", function(req, res) {
 
 
     const listid = "fe0d5cc4bf";
-    const url = "https://us7.api.mailchimp.com/3.0/lists/".listid;
+    const url = "https://us7.api.mailchimp.com/3.0/lists/" + listid;
     const option = {
         method: "POST",
         auth: "luferra:b77397ad48e8330b87cab35ebdc72282-us7"
