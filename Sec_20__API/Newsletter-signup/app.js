@@ -18,7 +18,7 @@ app.post("/", function(req, res) {
     const surname = req.body.inputSurname;
     const emails = req.body.inputEmail;
 
-    const listId = "fe0d5cc4bf";
+    //inutile perchè c'è già sopra
     const subscribingUser = {
         firstName: name,
         lastName: surname,
@@ -38,15 +38,16 @@ app.post("/", function(req, res) {
 
     const jsonData = JSON.stringify(data);
 
+
     const listid = "fe0d5cc4bf";
-    const url = "https://us7.api.mailchimp.com/3.0/lists/fe0d5cc4bf";
+    const url = "https://us7.api.mailchimp.com/3.0/lists/".listid;
     const option = {
         method: "POST",
         auth: "luferra:b77397ad48e8330b87cab35ebdc72282-us7"
     }
 
     const requesta = https.request(url, option, function(response) {
-        console.log(response.error_count);
+        //console.log(response.error_count);
 
         response.on("data", function(data) {
             var rex = JSON.parse(data);
@@ -63,6 +64,6 @@ app.post("/", function(req, res) {
     requesta.end();
 })
 
-app.listen("3001", function() {
-    console.log("Listen on port 3001");
+app.listen(process.env.PORT || 3001, function() {
+    console.log("Listen on some port");
 })
