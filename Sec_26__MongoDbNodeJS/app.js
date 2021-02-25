@@ -3,8 +3,15 @@ const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true});
 
 const fruitSchema = new mongoose.Schema ({
-  name: String,
-  rating: Number,
+  name: {
+    type: String,
+    required: [true, "Why no name?"]
+  },
+  rating: {
+      type: Number,
+      min: 1,
+      max: 10
+  },
   review: String
 });
 
@@ -27,7 +34,13 @@ const banana = new Fruit({
   rating: 8,
   review: 'Bunnanna'
 });
-//fruit.save();
+
+const newFr = new Fruit({
+  rating: 7,
+  review: 'very good very good'
+});
+
+//  newFr.save();
 
 // Fruit.insertMany([kiwi, banana], function(err) {
 //   if (err) {
