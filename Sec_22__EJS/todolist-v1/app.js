@@ -25,6 +25,8 @@ app.get("/", function(req, res) {
     newIteme: items
   });
 })
+//il method post restituisce un oggetto con il valore del nuovo oggetto e il titolo della pagina (data o work).
+//Se il valore è Work mette gli item nell'array workItem.
 
 app.post("/", function(req, res) {
   let item = req.body.newItem;

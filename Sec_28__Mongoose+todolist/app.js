@@ -1,14 +1,37 @@
 //jshint esversion:6
 
 const express = require("express");
+const mongoose = require("mongoose");
+
 //const https = require("https");
 const bodyParser = require("body-parser");
-const date = require(__dirname + "/date.js");
 
-//è consigliabile utilizzare const per varibili che non cambiano. Ma gli array possono essere dichiarati come costanti.
-const items = ["Buy food", "Cook food", "Eat food"];
-const workItem = [];
+//connection to db
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true});
+const itemSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Missing name"]
+  }
+});
 
+const Item = mongoose.model('Item', itemSchema);
+
+const item1 = new Item({
+  name: "exercize 1"
+});
+
+const item2 = new Item({
+  name: "do laudry"
+});
+
+const item3 = new Item({
+  name: "study"
+});
+
+const defaultItem = [item1, item2, item3];
+
+//express + ejs conf/init
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
@@ -16,27 +39,54 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
+
 app.get("/", function(req, res) {
   //usa sempre let al posto di var. le variabili let, come i const sono locali anche all'interno di loop e if. Le variabili var invece sono globali se inserite in loop o if.
 
-  let day = date.getDate();
-  res.render('list', {
-    listTitle: day,
-    newIteme: items
+  Item.find({}, function(er, items){
+    console.log(items.length);
+      if(items.length === 0) {
+        console.log("enter");
+        Item.insertMany(defaultItem, function(err) {
+          if (err){
+            console.log(err);
+          }
+          else {
+            console.log("successfully insert");
+          }
+        });
+        res.redirect("/");
+      }
+      else {
+          res.render('list', {
+          listTitle: "Today",
+          newIteme: items
+        });
+      }
   });
+
+
 })
 
-//il method post restituisce un oggetto con il valore del nuovo oggetto e il titolo della pagina (data o work).
-//Se il valore è Work mette gli item nell'array workItem.
 app.post("/", function(req, res) {
   let item = req.body.newItem;
-  if (req.body.list === "Work") {
-    workItem.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  const nItem = new Item({
+      name: item
+    });
+  nItem.save();
+  res.redirect("/");
+})
+app.post("/delete", function(req, res) {
+  let delItem = req.body.checkbox;
+  Item.findByIdAndRemove(delItem, {useFindAndModify: false}, function(err){
+    if (err) {
+      console.log(err);
+    }
+    else{
+      console.log("successfully deleted");
+    }
+  });
+  res.redirect("/");
 })
 
 app.get("/work", function(req, res) {
