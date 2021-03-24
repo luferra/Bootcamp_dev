@@ -29,6 +29,13 @@ const item3 = new Item({
   name: "study"
 });
 
+const listSchema = {
+  name: String,
+  items: [itemSchema]
+};
+
+const List = mongoose.model("List", listSchema);
+
 const defaultItem = [item1, item2, item3];
 
 //express + ejs conf/init
@@ -68,13 +75,53 @@ app.get("/", function(req, res) {
 
 })
 
+app.get("/:customListName", function(req, res){
+  const customListName = req.params.customListName;
+
+  List.findOne({name: customListName}, function(err, list){
+    if (!err){
+      if(!list){
+        console.log("No exist");
+        const list = new List({
+          name: customListName,
+          items: defaultItem
+        });
+        list.save();
+        res.redirect("/" + customListName);
+      }
+      else {
+        console.log("exist");
+        res.render('list', {
+          listTitle: list.name,
+          newIteme: list.items
+        })
+      }
+    }
+    else{
+      console.log(err);
+    }
+  })
+
+});
+
 app.post("/", function(req, res) {
   let item = req.body.newItem;
+  let title = req.body.list;
   const nItem = new Item({
       name: item
     });
-  nItem.save();
-  res.redirect("/");
+
+  if (title === "Today"){
+    nItem.save();
+    res.redirect("/");
+  } else {
+    List.findOne({name: title}, function(err, lista) {
+      lista.items.push(nItem);
+      lista.save();
+      res.redirect("/" + title);
+    });
+  }
+
 })
 app.post("/delete", function(req, res) {
   let delItem = req.body.checkbox;
