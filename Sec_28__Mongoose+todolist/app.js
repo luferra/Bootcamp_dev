@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 //const https = require("https");
 const bodyParser = require("body-parser");
+const _ = require("lodash");
 
 //connection to db
 mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true});
@@ -76,7 +77,7 @@ app.get("/", function(req, res) {
 })
 
 app.get("/:customListName", function(req, res){
-  const customListName = req.params.customListName;
+  const customListName = _.capitalize(req.params.customListName);
 
   List.findOne({name: customListName}, function(err, list){
     if (!err){
@@ -125,15 +126,27 @@ app.post("/", function(req, res) {
 })
 app.post("/delete", function(req, res) {
   let delItem = req.body.checkbox;
-  Item.findByIdAndRemove(delItem, {useFindAndModify: false}, function(err){
-    if (err) {
-      console.log(err);
-    }
-    else{
-      console.log("successfully deleted");
-    }
-  });
-  res.redirect("/");
+  let listCheck = req.body.listCheck;
+  if (listCheck === "Today"){
+    Item.findByIdAndRemove(delItem, {useFindAndModify: false}, function(err){
+      if (err) {
+        console.log(err);
+      }
+      else{
+        console.log("successfully deleted");
+        res.redirect("/");
+      }
+    });
+  } else {
+    List.findOneAndUpdate({name: listCheck}, {$pull: {items: {_id: delItem}}}, function(err, foundList){
+      if(err){
+        console.log(err);
+      }
+      else{
+        res.redirect("/" + listCheck);
+      }
+    });
+}
 })
 
 app.get("/work", function(req, res) {
